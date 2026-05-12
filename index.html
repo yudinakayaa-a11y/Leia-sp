@@ -56,15 +56,33 @@
     <div class="subtitle">Automação segura com pausa de 2 minutos por página</div>
 
     <!-- Link direto para o script bruto dentro do seu próprio repositório -->
-    <a href="githubusercontent.com" target="_blank" class="btn">
-    
-        🚀 Clique aqui para ver o Código JavaScript
-    </a>
+    <button onclick="copiarScript()" class="btn" style="cursor: pointer; width: 100%; border: none; background-color: #38bdf8; color: #0f172a; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 30px;">
+    📋 Copiar Código JavaScript
+</button>
 
-    <div class="steps">
-        <h3>🛠️ Como usar a Extensão (Tutorial Rápido)</h3>
+<script>
+async function copiarScript() {
+    const url = "githubusercontent.com";
+    try {
+        const resposta = await fetch(url);
+        const codigo = await resposta.text();
+        await navigator.clipboard.writeText(codigo);
+        alert("Código copiado com sucesso! Agora siga o passo 1 do tutorial.");
+    } catch (erro) {
+        alert("Erro ao copiar automaticamente. Clique para abrir o código.");
+        window.open(url, '_blank');
+    }
+}
+</script>
+    
+    
         
-        <div class="step">
+    
+
+    
+        
+        
+
             <div class="step-title">1. Crie o arquivo de código</div>
             <div class="step-desc">Clique no botão azul acima, copie todo o código exibido e salve no bloco de notas do PC com o nome de <code>content.js</code>.</div>
         </div>
