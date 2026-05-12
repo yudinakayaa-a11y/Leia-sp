@@ -34,10 +34,14 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 16px;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
             margin-bottom: 30px;
+            cursor: pointer;
+            border: none;
+            width: 100%;
         }
         .btn:hover { background-color: #7dd3fc; }
+        .btn:active { transform: scale(0.98); }
         .steps { margin-top: 20px; }
         .step {
             margin-bottom: 20px;
@@ -55,95 +59,98 @@
     <h1>📖 Leia SP Helper</h1>
     <div class="subtitle">Automação segura com pausa de 2 minutos por página</div>
 
-    <!-- Link direto para o script bruto dentro do seu próprio repositório -->
-    <button onclick="copiarScript()" class="btn" style="cursor: pointer; width: 100%; border: none; background-color: #38bdf8; color: #0f172a; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 30px;">
-    📋 Copiar Código JavaScript
-<div class="container">
-    <h1>📖 Leia SP Helper</h1>
-    <div class="subtitle">Automação segura com pausa de 2 minutos por página</div>
-
-    <!-- Botão Corrigido -->
-    <button onclick="copiarScript()" class="btn">📋 Copiar Código da Extensão</button>
-
-    <script>
-    async function copiarScript() {
-        const url = "githubusercontent.com";
-        try {
-            const resposta = await fetch(url);
-            const codigo = await resposta.text();
-            await navigator.clipboard.writeText(codigo);
-            alert("Código copiado com sucesso! Agora siga o passo a passo abaixo.");
-        } catch (erro) {
-            alert("Erro ao copiar automaticamente. Abrindo o código em uma nova aba...");
-            window.open(url, '_blank');
-        }
-    }
-    </script>
+    <!-- Botão que copia o script inteiro automaticamente ao clicar -->
+    <button id="btnCopiar" class="btn">📋 Clique aqui para copiar o Script</button>
 
     <div class="steps">
+        <h3>🛠️ Como usar a Extensão (Tutorial Rápido)</h3>
+        
         <div class="step">
             <div class="step-title">1. Crie o arquivo de código</div>
-            <div class="step-desc">Clique no botão acima, copie todo o código e salve no bloco de notas do PC com o nome de <code>content.js</code>.</div>
+            <div class="step-desc">Clique no botão azul acima (ele já copia o código sozinho). Abra o Bloco de Notas no seu computador, cole o código (Ctrl+V) e salve com o nome de <code>content.js</code>.</div>
         </div>
+
         <div class="step">
             <div class="step-title">2. Crie o Manifesto</div>
-            <div class="step-desc">Na mesma pasta, crie um arquivo texto chamado <code>manifest.json</code> contendo as configurações básicas.</div>
+            <div class="step-desc">No mesmo Bloco de Notas, crie um novo arquivo chamado <code>manifest.json</code> e configure as permissões da extensão para rodar no site do Leia SP.</div>
         </div>
+
         <div class="step">
             <div class="step-title">3. Ative o Modo Desenvolvedor</div>
-            <div class="step-desc">Abra o Chrome no PC, acesse <code>chrome://extensions/</code> e ative o <b>Modo do desenvolvedor</b>.</div>
+            <div class="step-desc">Abra o Chrome no PC, acesse <code>chrome://extensions/</code> e ative a chave <b>Modo do desenvolvedor</b> no canto superior direito.</div>
         </div>
+
         <div class="step">
-            <div class="step-title">4. Carregue a pasta</div>
-            <div class="step-desc">Clique em <b>Carregar sem compactação</b> e selecione a pasta criada. Pronto!</div>
+            <div class="step-title">4. Carregue o Robô</div>
+            <div class="step-desc">Clique em <b>Carregar sem compactação</b> no canto esquerdo e selecione a pasta com os dois arquivos. O bot passará a ler as páginas esperando 2 minutos de forma 100% segura.</div>
         </div>
     </div>
 </div>
-        
 
+<script>
+// O código JavaScript completo do seu robô com a trava de 2 minutos fica guardado aqui dentro
+const codigoScript = `const CONFIG = {
+  tempoEsperaLeitura: 120000,   // 2 minutos por página
+  tempoPensarResposta: 8000,    
+  tempoProximaPergunta: 4000     
+};
 
+const esperar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    
-    
-        
-        
-        
-        
-    
-        
-        
-    
+async function executarAutomacao() {
+  console.log("[Leia SP Helper] Verificando estado da página...");
 
+  const areaLivro = document.querySelector('.book-reader, #reader-container, .pagina-livro'); 
+  if (areaLivro) {
+    console.log("[Leia SP Helper] Livro detectado. Iniciando leitura simulada...");
+    
+    for (let i = 0; i < 4; i++) {
+      window.scrollBy({ top: window.innerHeight / 4, behavior: 'smooth' });
+      await esperar(3000);
+    }
+
+    console.log("[Leia SP Helper] Pausa de segurança ativa: aguardando 2 minutos...");
+    await esperar(CONFIG.tempoEsperaLeitura);
+
+    const botaoAvancar = document.querySelector('.btn-next, [aria-label="Próxima página"], .next-page-btn');
+    if (botaoAvancar) {
+      botaoAvancar.click();
+      console.log("[Leia SP Helper] 2 minutos concluídos. Avançando de página.");
+    }
+  }
+
+  const alternativas = document.querySelectorAll('.alternative-item, .opcao-resposta, [role="radio"], .quiz-option');
+  if (alternativas.length > 0) {
+    await esperar(CONFIG.tempoPensarResposta);
+    const indiceAleatorio = Math.floor(Math.random() * alternativas.length);
+    alternativas[indiceAleatorio].click();
+
+    await esperar(CONFIG.tempoProximaPergunta);
+    const botaoConfirmar = document.querySelector('.btn-confirm, .responder-btn, .quiz-submit, button[type="submit"]');
+    if (botaoConfirmar) {
+      botaoConfirmar.click();
+    }
+  }
+}
+
+setInterval(executarAutomacao, 5000);`;
+
+// Função que faz a mágica de copiar e mudar o texto do botão
+document.getElementById('btnCopiar').addEventListener('click', function() {
+    navigator.clipboard.writeText(codigoScript).then(() => {
+        this.innerText = "✅ Código Copiado com Sucesso!";
+        this.style.backgroundColor = "#10b981"; // Muda para verde ao copiar
+        
+        // Volta ao normal após 3 segundos
+        setTimeout(() => {
+            this.innerText = "📋 Clique aqui para copiar o Script";
+            this.style.backgroundColor = "#38bdf8";
+        }, 3000);
+    }).catch(err => {
+        alert("Erro ao copiar automaticamente. Por favor, copie manualmente.");
+    });
+});
 </script>
-    
-    
-        
-    
-
-    
-        
-        
-
-            <div class="step-title">1. Crie o arquivo de código</div>
-            <div class="step-desc">Clique no botão azul acima, copie todo o código exibido e salve no bloco de notas do PC com o nome de <code>content.js</code>.</div>
-        </div>
-
-        <div class="step">
-            <div class="step-title">2. Crie o Manifesto</div>
-            <div class="step-desc">Na mesma pasta do computador, crie um arquivo texto chamado <code>manifest.json</code> contendo as configurações básicas de permissão da extensão.</div>
-        </div>
-
-        <div class="step">
-            <div class="step-title">3. Ative o Modo Desenvolvedor</div>
-            <div class="step-desc">Abra o navegador Chrome do computador, digite <code>chrome://extensions/</code> na barra de endereços e ative a chave <b>Modo do desenvolvedor</b> no canto superior direito.</div>
-        </div>
-
-        <div class="step">
-            <div class="step-title">4. Carregue a pasta</div>
-            <div class="step-desc">Clique no botão <b>Carregar sem compactação</b> no canto superior esquerdo do navegador e selecione a pasta onde salvou os arquivos criados. Pronto!</div>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>
