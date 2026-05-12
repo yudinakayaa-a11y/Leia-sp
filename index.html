@@ -58,21 +58,62 @@
     <!-- Link direto para o script bruto dentro do seu próprio repositório -->
     <button onclick="copiarScript()" class="btn" style="cursor: pointer; width: 100%; border: none; background-color: #38bdf8; color: #0f172a; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 30px;">
     📋 Copiar Código JavaScript
-</button>
+<div class="container">
+    <h1>📖 Leia SP Helper</h1>
+    <div class="subtitle">Automação segura com pausa de 2 minutos por página</div>
 
-<script>
-async function copiarScript() {
-    const url = "githubusercontent.com";
-    try {
-        const resposta = await fetch(url);
-        const codigo = await resposta.text();
-        await navigator.clipboard.writeText(codigo);
-        alert("Código copiado com sucesso! Agora siga o passo 1 do tutorial.");
-    } catch (erro) {
-        alert("Erro ao copiar automaticamente. Clique para abrir o código.");
-        window.open(url, '_blank');
+    <!-- Botão Corrigido -->
+    <button onclick="copiarScript()" class="btn">📋 Copiar Código da Extensão</button>
+
+    <script>
+    async function copiarScript() {
+        const url = "githubusercontent.com";
+        try {
+            const resposta = await fetch(url);
+            const codigo = await resposta.text();
+            await navigator.clipboard.writeText(codigo);
+            alert("Código copiado com sucesso! Agora siga o passo a passo abaixo.");
+        } catch (erro) {
+            alert("Erro ao copiar automaticamente. Abrindo o código em uma nova aba...");
+            window.open(url, '_blank');
+        }
     }
-}
+    </script>
+
+    <div class="steps">
+        <div class="step">
+            <div class="step-title">1. Crie o arquivo de código</div>
+            <div class="step-desc">Clique no botão acima, copie todo o código e salve no bloco de notas do PC com o nome de <code>content.js</code>.</div>
+        </div>
+        <div class="step">
+            <div class="step-title">2. Crie o Manifesto</div>
+            <div class="step-desc">Na mesma pasta, crie um arquivo texto chamado <code>manifest.json</code> contendo as configurações básicas.</div>
+        </div>
+        <div class="step">
+            <div class="step-title">3. Ative o Modo Desenvolvedor</div>
+            <div class="step-desc">Abra o Chrome no PC, acesse <code>chrome://extensions/</code> e ative o <b>Modo do desenvolvedor</b>.</div>
+        </div>
+        <div class="step">
+            <div class="step-title">4. Carregue a pasta</div>
+            <div class="step-desc">Clique em <b>Carregar sem compactação</b> e selecione a pasta criada. Pronto!</div>
+        </div>
+    </div>
+</div>
+        
+
+
+
+    
+    
+        
+        
+        
+        
+    
+        
+        
+    
+
 </script>
     
     
