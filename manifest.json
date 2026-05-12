@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Leia SP Helper",
+  "version": "1.0",
+  "description": "Automação segura com pausa de 2 minutos para o Leia SP",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.elefanteletrado.com.br/*",
+        "*://*.leiasp.educacao.sp.gov.br/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
+}
